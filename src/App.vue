@@ -1,18 +1,26 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/register">Register</router-link> |
-      <router-link to="/login">Login</router-link> |
-      <router-link to="/secret">Secret</router-link> 
-    </div>
+    <TopHeader />
+    <Navbar />
     <router-view/>
   </div>
 </template>
 
+<script>
+import Navbar from "./components/Navbar"
+import TopHeader from "./components/TopHeader"
+
+export default {
+  components: {Navbar, TopHeader}
+}
+</script>
+
+
 <style lang="scss">
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Prompt, Avenir, Helvetica, Arial, sans-serif;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

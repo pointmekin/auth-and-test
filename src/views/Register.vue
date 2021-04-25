@@ -3,7 +3,7 @@
     <div v-if="error" class="error">{{error.message}}</div>
     <div class="form">
       <form @submit.prevent="pressed">
-      Register
+      {{ $t('register')}}
       <hr class="smooth-hr"/>
       <div class="email input-container">
         <!-- <input type="email" v-model="email" placeholder="email"> -->
@@ -15,30 +15,60 @@
         <label for="password-input" class="float-left">Password</label>
         <b-form-input id="password-input" type="password" v-model="password" placeholder="Enter your password" oninvalid="this.setCustomValidity('Invalid Password')" required></b-form-input>
       </div>
-      <b-button variant="primary" type="submit" size="lg">Submit</b-button>
+      <div class="language input-container">
+      <label for="email-input" class="float-left">Language</label>
+      <b-form-select v-model="$i18n.locale" v-on:change="toggleLang($event)">
+        <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">
+          {{ lang }}
+        </option>
+      </b-form-select>
+
+      </div>
+      <b-button variant="primary" type="submit" size="lg" @click.prevent="pressed">Submit</b-button>
     </form>
     </div>
   </div>
 </template>
 
 <script>
+import {i18n, setLanguage} from '../i18n'
+import firebase from "firebase/app"
+import "firebase/auth";
+
 export default {
   data() {
     return {
       email:'',
       password:'',
-      error:''
+      error:'',
+      langs:['en', 'th']
     }
   },
   methods: {
-    pressed() {
-      alert("Submitted")
+    async pressed() {
+      try {
+        const user = await firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+        console.log(user)
+        this.$router.replace({name:"secret"})
+      } catch(err) {
+        console.log(err)
+        this.error = err.toString()
+      }
+    },
+    toggleLang(lang) {
+      console.log("Language: ",lang)
+      setLanguage(lang)
+    }
+  },
+  computed: {
+    getLanguage() {
+      return i18n.getLanguage();
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .error {
   color: red;
   font-size: 18px;
