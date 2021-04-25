@@ -43,13 +43,7 @@ export default {
   color: red;
   font-size: 18px;
 }
-// input {
-// b-form-input {
-//   width: 400px;
-//   padding: 30px;
-//   margin: 20px;
-//   font-size: 21px;
-// }
+
 button {
   margin-top: 20px;
   width: 100%;
